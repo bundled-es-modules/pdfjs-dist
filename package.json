@@ -1,0 +1,30 @@
+{
+  "name": "@bundled-es-modules/pdfjs-dist",
+  "version": "2.0.943",
+  "description": "mirror of pdfjs-dist, bundled and exposed as ES module",
+  "author": "Rob Resendez (resendez.java@gmail.com)",
+  "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/bundled-es-modules/pdf-dist.git"
+  },
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "core-js": "^2.5.7",
+    "pdfjs-dist": "2.0.943",
+    "rollup": "^0.62.0",
+    "rollup-plugin-commonjs": "^9.1.3",
+    "rollup-plugin-copy": "^0.2.3",
+    "rollup-plugin-node-builtins": "^2.1.2",
+    "rollup-plugin-node-globals": "^1.4.0",
+    "rollup-plugin-node-resolve": "^3.4.0",
+    "semver": ">=4.3.2"
+  },
+  "scripts": {
+    "build": "rollup -c ./rollup.config.js"
+  }
+}

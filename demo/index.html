@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+  <title>bundled-es pdfjs-dist</title>
+
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    }
+
+    .section-container {
+      max-width: 80%;
+      margin: 0 auto;
+    }
+
+    .card {
+      display: flex;
+      height: 80vh;
+      border-radius: 4px;
+      background: #424242;
+      border: 1px solid hsla(214, 53%, 23%, 0.16);
+      padding: 16px;
+      overflow: auto;
+      background-clip: padding-box;
+      box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+        0 1px 5px 0 rgba(0, 0, 0, 0.12),
+        0 3px 1px -2px rgba(0, 0, 0, 0.2);
+    }
+
+    #the-canvas {
+      border: 1px solid #333;
+      margin: 0 auto;
+    }
+  </style>
+
+</head>
+
+<body>
+  <div class="section-container">
+    <h3>PDF.js basic example</h3>
+    <div class="card">
+      <canvas id="the-canvas"></canvas>
+    </div>
+  </div>
+</body>
+
+<script type="module">
+  import { pdfjs as pdfjsLib } from '../index.js';
+  //OR import pdfjsLib from '../pdf.js';
+
+  //mostly copied from https://mozilla.github.io/pdf.js/examples/index.html#interactive-examples
+  // The workerSrc property shall be specified.
+  pdfjsLib.GlobalWorkerOptions.workerSrc = '../pdf.worker.min.js';
+
+  // If absolute URL from the remote server is provided, configure the CORS
+  // header on that server.
+  var url = 'basicapi.pdf';
+
+  // Asynchronous download of PDF
+  var loadingTask = pdfjsLib.getDocument(url);
+  loadingTask.promise.then(function (pdf) {
+    console.log('PDF loaded', pdf);
+
+    // Fetch the first page
+    var pageNumber = 1;
+    pdf.getPage(pageNumber).then(function (page) {
+      console.log('Page loaded');
+
+      var scale = 1;
+      var viewport = page.getViewport(scale);
+
+      // Prepare canvas using PDF page dimensions
+      var canvas = document.getElementById('the-canvas');
+      var context = canvas.getContext('2d');
+      canvas.height = viewport.height;
+      canvas.width = viewport.width;
+
+      // Render PDF page into canvas context
+      var renderContext = {
+        canvasContext: context,
+        viewport: viewport
+      };
+      var renderTask = page.render(renderContext);
+      renderTask.then(function () {
+        console.log('Page rendered');
+      });
+    });
+  }, function (reason) {
+    // PDF loading error
+    console.error(reason);
+  });
+</script>
+
+</html>
