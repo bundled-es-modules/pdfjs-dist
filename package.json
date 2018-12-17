@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/bundled-es-modules/pdf-dist.git"
+    "url": "git://github.com/bundled-es-modules/pdfjs-dist.git"
   },
   "license": "Apache-2.0",
   "devDependencies": {
