@@ -1,4 +1,4 @@
-import { originalExports, originalModule } from "../loaders/setup.js";
+import { originalExports, originalModule } from "./setup.js";
 import "pdfjs-dist/build/pdf";
 
 export default window.module.exports;

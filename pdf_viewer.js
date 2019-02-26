@@ -1,4 +1,4 @@
-import pdfjs from '../pdf.js';
+import pdfjs from './pdf.js';
 
 const originalExports = window.exports;
 const originalModule = window.module;

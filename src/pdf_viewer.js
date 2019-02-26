@@ -1,4 +1,4 @@
-import { originalExports, originalModule } from "../loaders/viewer-setup";
+import { originalExports, originalModule } from "./viewer-setup";
 import "pdfjs-dist/web/pdf_viewer.js";
 
 export default window.module.exports;
