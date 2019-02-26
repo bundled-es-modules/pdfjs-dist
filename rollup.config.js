@@ -1,8 +1,8 @@
-import resolve from 'rollup-plugin-node-resolve';
-import builtins from 'rollup-plugin-node-builtins';
-import globals from 'rollup-plugin-node-globals';
-import commonjs from 'rollup-plugin-commonjs';
-import copy from 'rollup-plugin-copy';
+import resolve from "rollup-plugin-node-resolve";
+import builtins from "rollup-plugin-node-builtins";
+import globals from "rollup-plugin-node-globals";
+import commonjs from "rollup-plugin-commonjs";
+import copy from "rollup-plugin-copy";
 
 /**
  * Globals and Builtins needed
@@ -15,39 +15,40 @@ import copy from 'rollup-plugin-copy';
  */
 
 /**
- * core-js needed 
+ * core-js needed
  * several in pdfjs-dist/lib/shared/compatibility.js
  */
 
 export default [
   {
-    input: './node_modules/pdfjs-dist/lib/pdf.js',
+    input: "./src/pdf.js",
     output: {
-      file: './pdf.js',
-      format: 'es'
+      file: "./pdf.js",
+      format: "es"
     },
     plugins: [
       resolve({
         browser: true,
-        preferBuiltins: false,
-      }),
-      commonjs({
-        namedExports: {
-          'node_modules/buffer/index.js': ['isBuffer'],
-          'node_modules/process/browser.js': ['nextTick'],
-          'node_modules/events/events.js': ['EventEmitter']
-        }
+        preferBuiltins: false
       }),
       globals(),
-      builtins(),
-      copy({
-        './node_modules/pdfjs-dist/build/pdf.worker.js': './pdf.worker.js',
-        './node_modules/pdfjs-dist/build/pdf.worker.min.js': './pdf.worker.min.js',
-        './node_modules/pdfjs-dist/build/pdf.worker.entry.js': './pdf.worker.entry.js',
-        './node_modules/pdfjs-dist/build/pdf.worker.js.map': './pdf.worker.js.map',
-        './node_modules/pdfjs-dist/LICENSE': './LICENSE'
-      })
+      builtins()
     ]
+  },
+  {
+    input: "./src/pdf_viewer.js",
+    output: {
+      file: "./pdf_viewer.js",
+      format: "es"
+    },
+    plugins: [
+      resolve({
+        browser: true,
+        preferBuiltins: false
+      }),
+      globals(),
+      builtins()
+    ],
+    external: id => id.includes("pdf.js")
   }
 ];
-

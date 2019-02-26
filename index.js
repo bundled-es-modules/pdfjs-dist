@@ -1,2 +1,2 @@
-import defaultPdf from './pdf.js';
+import defaultPdf from "./pdf.js";
 export const pdfjs = defaultPdf;
