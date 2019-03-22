@@ -6467,7 +6467,6 @@ exports.PDFViewer = PDFViewer;
 
 unwrapExports(pdf_viewer);
 
-delete window["pdfjs-dist/build/pdf"];
 var module$1 = pdf_viewer;
 
 export default module$1;
