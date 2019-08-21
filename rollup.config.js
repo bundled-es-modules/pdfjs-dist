@@ -48,15 +48,28 @@ export default [
         }
       }),
       copy({
-        './node_modules/pdfjs-dist/build/pdf.worker.js':
-          './build/pdf.worker.js',
-        './node_modules/pdfjs-dist/build/pdf.worker.min.js':
-          './build/pdf.worker.min.js',
-        './node_modules/pdfjs-dist/build/pdf.worker.entry.js':
-          './build/pdf.worker.entry.js',
-        './node_modules/pdfjs-dist/build/pdf.worker.js.map':
-          './build/pdf.worker.js.map',
-        './node_modules/pdfjs-dist/LICENSE': './LICENSE'
+        targets: [
+          {
+            src: './node_modules/pdfjs-dist/build/pdf.worker.js',
+            dest: './build/'
+          },
+          {
+            src: './node_modules/pdfjs-dist/build/pdf.worker.min.js',
+            dest: './build/'
+          },
+          {
+            src: './node_modules/pdfjs-dist/build/pdf.worker.entry.js',
+            dest: './build/'
+          },
+          {
+            src: './node_modules/pdfjs-dist/build/pdf.worker.js.map',
+            dest: './build/'
+          },
+          {
+            src: './node_modules/pdfjs-dist/LICENSE',
+            dest: './'
+          }
+        ]
       }),
       globals(),
       builtins()
@@ -76,8 +89,16 @@ export default [
       }),
       commonjs(),
       copy({
-        './src/viewer/pdf_viewer.js': './web/pdf_viewer.js',
-        './src/viewer/util.js': './web/util.js'
+        targets: [
+          {
+            src: './src/viewer/pdf_viewer.js',
+            dest: './web/'
+          },
+          {
+            src: './src/viewer/util.js',
+            dest: './web/'
+          }
+        ]
       }),
       globals(),
       builtins()

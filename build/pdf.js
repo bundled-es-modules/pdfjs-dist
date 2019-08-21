@@ -890,7 +890,7 @@ function arrayIndexOf (arr, val, byteOffset, encoding, dir) {
     }
   }
 
-  function read$$1 (buf, i) {
+  function read (buf, i) {
     if (indexSize === 1) {
       return buf[i]
     } else {
@@ -902,7 +902,7 @@ function arrayIndexOf (arr, val, byteOffset, encoding, dir) {
   if (dir) {
     var foundIndex = -1;
     for (i = byteOffset; i < arrLength; i++) {
-      if (read$$1(arr, i) === read$$1(val, foundIndex === -1 ? 0 : i - foundIndex)) {
+      if (read(arr, i) === read(val, foundIndex === -1 ? 0 : i - foundIndex)) {
         if (foundIndex === -1) foundIndex = i;
         if (i - foundIndex + 1 === valLength) return foundIndex * indexSize
       } else {
@@ -915,7 +915,7 @@ function arrayIndexOf (arr, val, byteOffset, encoding, dir) {
     for (i = byteOffset; i >= 0; i--) {
       var found = true;
       for (var j = 0; j < valLength; j++) {
-        if (read$$1(arr, i + j) !== read$$1(val, j)) {
+        if (read(arr, i + j) !== read(val, j)) {
           found = false;
           break
         }
@@ -986,7 +986,7 @@ function ucs2Write (buf, string, offset, length) {
   return blitBuffer(utf16leToBytes(string, buf.length - offset), buf, offset, length)
 }
 
-Buffer.prototype.write = function write$$1 (string, offset, length, encoding) {
+Buffer.prototype.write = function write (string, offset, length, encoding) {
   // Buffer#write(string)
   if (offset === undefined) {
     encoding = 'utf8';
@@ -1655,7 +1655,7 @@ function checkIEEE754 (buf, value, offset, ext, max, min) {
 
 function writeFloat (buf, value, offset, littleEndian, noAssert) {
   if (!noAssert) {
-    checkIEEE754(buf, value, offset, 4, 3.4028234663852886e+38, -3.4028234663852886e+38);
+    checkIEEE754(buf, value, offset, 4);
   }
   write(buf, value, offset, littleEndian, 23, 4);
   return offset + 4
@@ -1671,7 +1671,7 @@ Buffer.prototype.writeFloatBE = function writeFloatBE (value, offset, noAssert) 
 
 function writeDouble (buf, value, offset, littleEndian, noAssert) {
   if (!noAssert) {
-    checkIEEE754(buf, value, offset, 8, 1.7976931348623157E+308, -1.7976931348623157E+308);
+    checkIEEE754(buf, value, offset, 8);
   }
   write(buf, value, offset, littleEndian, 52, 8);
   return offset + 8
@@ -2185,14 +2185,14 @@ var process = {
   uptime: uptime
 };
 
-var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 function commonjsRequire () {
 	throw new Error('Dynamic requires are not currently supported by rollup-plugin-commonjs');
 }
 
 function unwrapExports (x) {
-	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x.default : x;
+	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
 }
 
 function createCommonjsModule(fn, module) {
@@ -2200,7 +2200,7 @@ function createCommonjsModule(fn, module) {
 }
 
 function getCjsExportFromNamespace (n) {
-	return n && n.default || n;
+	return n && n['default'] || n;
 }
 
 var require$$5 = {};
@@ -2208,35 +2208,38 @@ var require$$5 = {};
 var _empty_module = {};
 
 var _empty_module$1 = /*#__PURE__*/Object.freeze({
-            default: _empty_module
+            'default': _empty_module
 });
 
+/*! https://mths.be/punycode v1.4.1 by @mathias */
+
+
 /** Highest positive signed 32-bit float value */
-const maxInt = 2147483647; // aka. 0x7FFFFFFF or 2^31-1
+var maxInt = 2147483647; // aka. 0x7FFFFFFF or 2^31-1
 
 /** Bootstring parameters */
-const base = 36;
-const tMin = 1;
-const tMax = 26;
-const skew = 38;
-const damp = 700;
-const initialBias = 72;
-const initialN = 128; // 0x80
-const delimiter = '-'; // '\x2D'
-const regexNonASCII = /[^\0-\x7E]/; // non-ASCII chars
-const regexSeparators = /[\x2E\u3002\uFF0E\uFF61]/g; // RFC 3490 separators
+var base = 36;
+var tMin = 1;
+var tMax = 26;
+var skew = 38;
+var damp = 700;
+var initialBias = 72;
+var initialN = 128; // 0x80
+var delimiter = '-'; // '\x2D'
+var regexNonASCII = /[^\x20-\x7E]/; // unprintable ASCII chars + non-ASCII chars
+var regexSeparators = /[\x2E\u3002\uFF0E\uFF61]/g; // RFC 3490 separators
 
 /** Error messages */
-const errors = {
-	'overflow': 'Overflow: input needs wider integers to process',
-	'not-basic': 'Illegal input >= 0x80 (not a basic code point)',
-	'invalid-input': 'Invalid input'
+var errors = {
+  'overflow': 'Overflow: input needs wider integers to process',
+  'not-basic': 'Illegal input >= 0x80 (not a basic code point)',
+  'invalid-input': 'Invalid input'
 };
 
 /** Convenience shortcuts */
-const baseMinusTMin = base - tMin;
-const floor = Math.floor;
-const stringFromCharCode = String.fromCharCode;
+var baseMinusTMin = base - tMin;
+var floor = Math.floor;
+var stringFromCharCode = String.fromCharCode;
 
 /*--------------------------------------------------------------------------*/
 
@@ -2247,7 +2250,7 @@ const stringFromCharCode = String.fromCharCode;
  * @returns {Error} Throws a `RangeError` with the applicable error message.
  */
 function error(type) {
-	throw new RangeError(errors[type]);
+  throw new RangeError(errors[type]);
 }
 
 /**
@@ -2259,12 +2262,12 @@ function error(type) {
  * @returns {Array} A new array of values returned by the callback function.
  */
 function map(array, fn) {
-	const result = [];
-	let length = array.length;
-	while (length--) {
-		result[length] = fn(array[length]);
-	}
-	return result;
+  var length = array.length;
+  var result = [];
+  while (length--) {
+    result[length] = fn(array[length]);
+  }
+  return result;
 }
 
 /**
@@ -2278,19 +2281,19 @@ function map(array, fn) {
  * function.
  */
 function mapDomain(string, fn) {
-	const parts = string.split('@');
-	let result = '';
-	if (parts.length > 1) {
-		// In email addresses, only the domain name should be punycoded. Leave
-		// the local part (i.e. everything up to `@`) intact.
-		result = parts[0] + '@';
-		string = parts[1];
-	}
-	// Avoid `split(regex)` for IE8 compatibility. See #17.
-	string = string.replace(regexSeparators, '\x2E');
-	const labels = string.split('.');
-	const encoded = map(labels, fn).join('.');
-	return result + encoded;
+  var parts = string.split('@');
+  var result = '';
+  if (parts.length > 1) {
+    // In email addresses, only the domain name should be punycoded. Leave
+    // the local part (i.e. everything up to `@`) intact.
+    result = parts[0] + '@';
+    string = parts[1];
+  }
+  // Avoid `split(regex)` for IE8 compatibility. See #17.
+  string = string.replace(regexSeparators, '\x2E');
+  var labels = string.split('.');
+  var encoded = map(labels, fn).join('.');
+  return result + encoded;
 }
 
 /**
@@ -2307,27 +2310,29 @@ function mapDomain(string, fn) {
  * @returns {Array} The new array of code points.
  */
 function ucs2decode(string) {
-	const output = [];
-	let counter = 0;
-	const length = string.length;
-	while (counter < length) {
-		const value = string.charCodeAt(counter++);
-		if (value >= 0xD800 && value <= 0xDBFF && counter < length) {
-			// It's a high surrogate, and there is a next character.
-			const extra = string.charCodeAt(counter++);
-			if ((extra & 0xFC00) == 0xDC00) { // Low surrogate.
-				output.push(((value & 0x3FF) << 10) + (extra & 0x3FF) + 0x10000);
-			} else {
-				// It's an unmatched surrogate; only append this code unit, in case the
-				// next code unit is the high surrogate of a surrogate pair.
-				output.push(value);
-				counter--;
-			}
-		} else {
-			output.push(value);
-		}
-	}
-	return output;
+  var output = [],
+    counter = 0,
+    length = string.length,
+    value,
+    extra;
+  while (counter < length) {
+    value = string.charCodeAt(counter++);
+    if (value >= 0xD800 && value <= 0xDBFF && counter < length) {
+      // high surrogate, and there is a next character
+      extra = string.charCodeAt(counter++);
+      if ((extra & 0xFC00) == 0xDC00) { // low surrogate
+        output.push(((value & 0x3FF) << 10) + (extra & 0x3FF) + 0x10000);
+      } else {
+        // unmatched surrogate; only append this code unit, in case the next
+        // code unit is the high surrogate of a surrogate pair
+        output.push(value);
+        counter--;
+      }
+    } else {
+      output.push(value);
+    }
+  }
+  return output;
 }
 
 /**
@@ -2341,26 +2346,26 @@ function ucs2decode(string) {
  * used; else, the lowercase form is used. The behavior is undefined
  * if `flag` is non-zero and `digit` has no uppercase form.
  */
-const digitToBasic = function(digit, flag) {
-	//  0..25 map to ASCII a..z or A..Z
-	// 26..35 map to ASCII 0..9
-	return digit + 22 + 75 * (digit < 26) - ((flag != 0) << 5);
-};
+function digitToBasic(digit, flag) {
+  //  0..25 map to ASCII a..z or A..Z
+  // 26..35 map to ASCII 0..9
+  return digit + 22 + 75 * (digit < 26) - ((flag != 0) << 5);
+}
 
 /**
  * Bias adaptation function as per section 3.4 of RFC 3492.
  * https://tools.ietf.org/html/rfc3492#section-3.4
  * @private
  */
-const adapt = function(delta, numPoints, firstTime) {
-	let k = 0;
-	delta = firstTime ? floor(delta / damp) : delta >> 1;
-	delta += floor(delta / numPoints);
-	for (/* no initialization */; delta > baseMinusTMin * tMax >> 1; k += base) {
-		delta = floor(delta / baseMinusTMin);
-	}
-	return floor(k + (baseMinusTMin + 1) * delta / (delta + skew));
-};
+function adapt(delta, numPoints, firstTime) {
+  var k = 0;
+  delta = firstTime ? floor(delta / damp) : delta >> 1;
+  delta += floor(delta / numPoints);
+  for ( /* no initialization */ ; delta > baseMinusTMin * tMax >> 1; k += base) {
+    delta = floor(delta / baseMinusTMin);
+  }
+  return floor(k + (baseMinusTMin + 1) * delta / (delta + skew));
+}
 
 /**
  * Converts a string of Unicode symbols (e.g. a domain name label) to a
@@ -2369,86 +2374,112 @@ const adapt = function(delta, numPoints, firstTime) {
  * @param {String} input The string of Unicode symbols.
  * @returns {String} The resulting Punycode string of ASCII-only symbols.
  */
-const encode = function(input) {
-	const output = [];
+function encode(input) {
+  var n,
+    delta,
+    handledCPCount,
+    basicLength,
+    bias,
+    j,
+    m,
+    q,
+    k,
+    t,
+    currentValue,
+    output = [],
+    /** `inputLength` will hold the number of code points in `input`. */
+    inputLength,
+    /** Cached calculation results */
+    handledCPCountPlusOne,
+    baseMinusT,
+    qMinusT;
 
-	// Convert the input in UCS-2 to an array of Unicode code points.
-	input = ucs2decode(input);
+  // Convert the input in UCS-2 to Unicode
+  input = ucs2decode(input);
 
-	// Cache the length.
-	let inputLength = input.length;
+  // Cache the length
+  inputLength = input.length;
 
-	// Initialize the state.
-	let n = initialN;
-	let delta = 0;
-	let bias = initialBias;
+  // Initialize the state
+  n = initialN;
+  delta = 0;
+  bias = initialBias;
 
-	let basicLength = output.length;
-	let handledCPCount = basicLength;
+  // Handle the basic code points
+  for (j = 0; j < inputLength; ++j) {
+    currentValue = input[j];
+    if (currentValue < 0x80) {
+      output.push(stringFromCharCode(currentValue));
+    }
+  }
 
-	// `handledCPCount` is the number of code points that have been handled;
-	// `basicLength` is the number of basic code points.
+  handledCPCount = basicLength = output.length;
 
-	// Finish the basic string with a delimiter unless it's empty.
-	if (basicLength) {
-		output.push(delimiter);
-	}
+  // `handledCPCount` is the number of code points that have been handled;
+  // `basicLength` is the number of basic code points.
 
-	// Main encoding loop:
-	while (handledCPCount < inputLength) {
+  // Finish the basic string - if it is not empty - with a delimiter
+  if (basicLength) {
+    output.push(delimiter);
+  }
 
-		// All non-basic code points < n have been handled already. Find the next
-		// larger one:
-		let m = maxInt;
-		for (const currentValue of input) {
-			if (currentValue >= n && currentValue < m) {
-				m = currentValue;
-			}
-		}
+  // Main encoding loop:
+  while (handledCPCount < inputLength) {
 
-		// Increase `delta` enough to advance the decoder's <n,i> state to <m,0>,
-		// but guard against overflow.
-		const handledCPCountPlusOne = handledCPCount + 1;
-		if (m - n > floor((maxInt - delta) / handledCPCountPlusOne)) {
-			error('overflow');
-		}
+    // All non-basic code points < n have been handled already. Find the next
+    // larger one:
+    for (m = maxInt, j = 0; j < inputLength; ++j) {
+      currentValue = input[j];
+      if (currentValue >= n && currentValue < m) {
+        m = currentValue;
+      }
+    }
 
-		delta += (m - n) * handledCPCountPlusOne;
-		n = m;
+    // Increase `delta` enough to advance the decoder's <n,i> state to <m,0>,
+    // but guard against overflow
+    handledCPCountPlusOne = handledCPCount + 1;
+    if (m - n > floor((maxInt - delta) / handledCPCountPlusOne)) {
+      error('overflow');
+    }
 
-		for (const currentValue of input) {
-			if (currentValue < n && ++delta > maxInt) {
-				error('overflow');
-			}
-			if (currentValue == n) {
-				// Represent delta as a generalized variable-length integer.
-				let q = delta;
-				for (let k = base; /* no condition */; k += base) {
-					const t = k <= bias ? tMin : (k >= bias + tMax ? tMax : k - bias);
-					if (q < t) {
-						break;
-					}
-					const qMinusT = q - t;
-					const baseMinusT = base - t;
-					output.push(
-						stringFromCharCode(digitToBasic(t + qMinusT % baseMinusT, 0))
-					);
-					q = floor(qMinusT / baseMinusT);
-				}
+    delta += (m - n) * handledCPCountPlusOne;
+    n = m;
 
-				output.push(stringFromCharCode(digitToBasic(q, 0)));
-				bias = adapt(delta, handledCPCountPlusOne, handledCPCount == basicLength);
-				delta = 0;
-				++handledCPCount;
-			}
-		}
+    for (j = 0; j < inputLength; ++j) {
+      currentValue = input[j];
 
-		++delta;
-		++n;
+      if (currentValue < n && ++delta > maxInt) {
+        error('overflow');
+      }
 
-	}
-	return output.join('');
-};
+      if (currentValue == n) {
+        // Represent delta as a generalized variable-length integer
+        for (q = delta, k = base; /* no condition */ ; k += base) {
+          t = k <= bias ? tMin : (k >= bias + tMax ? tMax : k - bias);
+          if (q < t) {
+            break;
+          }
+          qMinusT = q - t;
+          baseMinusT = base - t;
+          output.push(
+            stringFromCharCode(digitToBasic(t + qMinusT % baseMinusT, 0))
+          );
+          q = floor(qMinusT / baseMinusT);
+        }
+
+        output.push(stringFromCharCode(digitToBasic(q, 0)));
+        bias = adapt(delta, handledCPCountPlusOne, handledCPCount == basicLength);
+        delta = 0;
+        ++handledCPCount;
+      }
+    }
+
+    ++delta;
+    ++n;
+
+  }
+  return output.join('');
+}
 
 /**
  * Converts a Unicode string representing a domain name or an email address to
@@ -2461,13 +2492,13 @@ const encode = function(input) {
  * @returns {String} The Punycode representation of the given domain name or
  * email address.
  */
-const toASCII = function(input) {
-	return mapDomain(input, function(string) {
-		return regexNonASCII.test(string)
-			? 'xn--' + encode(string)
-			: string;
-	});
-};
+function toASCII(input) {
+  return mapDomain(input, function(string) {
+    return regexNonASCII.test(string) ?
+      'xn--' + encode(string) :
+      string;
+  });
+}
 
 function isNull(arg) {
   return arg === null;
@@ -2510,10 +2541,10 @@ function isObject(arg) {
 // If obj.hasOwnProperty has been overridden, then calling
 // obj.hasOwnProperty(prop) will break.
 // See: https://github.com/joyent/node/issues/1707
-function hasOwnProperty$1(obj, prop) {
+function hasOwnProperty(obj, prop) {
   return Object.prototype.hasOwnProperty.call(obj, prop);
 }
-var isArray$2 = Array.isArray || function (xs) {
+var isArray$1 = Array.isArray || function (xs) {
   return Object.prototype.toString.call(xs) === '[object Array]';
 };
 function stringifyPrimitive(v) {
@@ -2542,7 +2573,7 @@ function stringify (obj, sep, eq, name) {
   if (typeof obj === 'object') {
     return map$1(objectKeys(obj), function(k) {
       var ks = encodeURIComponent(stringifyPrimitive(k)) + eq;
-      if (isArray$2(obj[k])) {
+      if (isArray$1(obj[k])) {
         return map$1(obj[k], function(v) {
           return ks + encodeURIComponent(stringifyPrimitive(v));
         }).join(sep);
@@ -2613,9 +2644,9 @@ function parse(qs, sep, eq, options) {
     k = decodeURIComponent(kstr);
     v = decodeURIComponent(vstr);
 
-    if (!hasOwnProperty$1(obj, k)) {
+    if (!hasOwnProperty(obj, k)) {
       obj[k] = v;
-    } else if (isArray$2(obj[k])) {
+    } else if (isArray$1(obj[k])) {
       obj[k].push(v);
     } else {
       obj[k] = [obj[k], v];
@@ -2968,7 +2999,7 @@ function parse$1(self, url, parseQueryString, slashesDenoteHost) {
   }
 
   // finally, reconstruct the href based on what has been validated.
-  self.href = format$1(self);
+  self.href = format(self);
   return self;
 }
 
@@ -2979,10 +3010,10 @@ function urlFormat(obj) {
   // this way, you can call url_format() on strings
   // to clean up potentially wonky urls.
   if (isString(obj)) obj = parse$1({}, obj);
-  return format$1(obj);
+  return format(obj);
 }
 
-function format$1(self) {
+function format(self) {
   var auth = self.auth || '';
   if (auth) {
     auth = encodeURIComponent(auth);
@@ -3039,7 +3070,7 @@ function format$1(self) {
 }
 
 Url.prototype.format = function() {
-  return format$1(this);
+  return format(this);
 };
 
 function urlResolve(source, relative) {
@@ -5990,6 +6021,10 @@ try {
   riter['return'] = function () {
     SAFE_CLOSING = true;
   };
+
+  Array.from(riter, function () {
+    throw 2;
+  });
 } catch (e) {}
 
 module.exports = function (exec, skipClosing) {
@@ -6370,11 +6405,11 @@ var promiseResolve = __w_pdfjs_require__(96);
 
 var PROMISE = 'Promise';
 var TypeError = global.TypeError;
-var process$$1 = global.process;
-var versions$$1 = process$$1 && process$$1.versions;
-var v8 = versions$$1 && versions$$1.v8 || '';
+var process = global.process;
+var versions = process && process.versions;
+var v8 = versions && versions.v8 || '';
 var $Promise = global[PROMISE];
-var isNode = classof(process$$1) == 'process';
+var isNode = classof(process) == 'process';
 
 var empty = function empty() {};
 
@@ -6461,7 +6496,7 @@ var onUnhandled = function onUnhandled(promise) {
     if (unhandled) {
       result = perform(function () {
         if (isNode) {
-          process$$1.emit('unhandledRejection', value, promise);
+          process.emit('unhandledRejection', value, promise);
         } else if (handler = global.onunhandledrejection) {
           handler({
             promise: promise,
@@ -6488,7 +6523,7 @@ var onHandleUnhandled = function onHandleUnhandled(promise) {
     var handler;
 
     if (isNode) {
-      process$$1.emit('rejectionHandled', promise);
+      process.emit('rejectionHandled', promise);
     } else if (handler = global.onrejectionhandled) {
       handler({
         promise: promise,
@@ -6573,7 +6608,7 @@ if (!USE_NATIVE) {
       var reaction = newPromiseCapability(speciesConstructor(this, $Promise));
       reaction.ok = typeof onFulfilled == 'function' ? onFulfilled : true;
       reaction.fail = typeof onRejected == 'function' && onRejected;
-      reaction.domain = isNode ? process$$1.domain : undefined;
+      reaction.domain = isNode ? process.domain : undefined;
 
       this._c.push(reaction);
 
@@ -6748,7 +6783,7 @@ var cel = __w_pdfjs_require__(17);
 
 var global = __w_pdfjs_require__(8);
 
-var process$$1 = global.process;
+var process = global.process;
 var setTask = global.setImmediate;
 var clearTask = global.clearImmediate;
 var MessageChannel = global.MessageChannel;
@@ -6793,9 +6828,9 @@ if (!setTask || !clearTask) {
     delete queue[id];
   };
 
-  if (__w_pdfjs_require__(29)(process$$1) == 'process') {
+  if (__w_pdfjs_require__(29)(process) == 'process') {
     defer = function defer(id) {
-      process$$1.nextTick(ctx(run, id, 1));
+      process.nextTick(ctx(run, id, 1));
     };
   } else if (Dispatch && Dispatch.now) {
     defer = function defer(id) {
@@ -6869,16 +6904,16 @@ var global = __w_pdfjs_require__(8);
 var macrotask = __w_pdfjs_require__(90).set;
 
 var Observer = global.MutationObserver || global.WebKitMutationObserver;
-var process$$1 = global.process;
+var process = global.process;
 var Promise = global.Promise;
-var isNode = __w_pdfjs_require__(29)(process$$1) == 'process';
+var isNode = __w_pdfjs_require__(29)(process) == 'process';
 
 module.exports = function () {
   var head, last, notify;
 
   var flush = function flush() {
     var parent, fn;
-    if (isNode && (parent = process$$1.domain)) parent.exit();
+    if (isNode && (parent = process.domain)) parent.exit();
 
     while (head) {
       fn = head.fn;
@@ -6898,7 +6933,7 @@ module.exports = function () {
 
   if (isNode) {
     notify = function notify() {
-      process$$1.nextTick(flush);
+      process.nextTick(flush);
     };
   } else if (Observer && !(global.navigator && global.navigator.standalone)) {
     var toggle = true;
@@ -15202,8 +15237,8 @@ var InternalRenderTask = function InternalRenderTaskClosure() {
   return InternalRenderTask;
 }();
 
-var version$$1 = '2.1.266';
-exports.version = version$$1;
+var version = '2.1.266';
+exports.version = version;
 var build = '81f5835c';
 exports.build = build;
 
@@ -15251,12 +15286,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
   var Op = Object.prototype;
   var hasOwn = Op.hasOwnProperty;
-  var undefined;
+  var undefined$1;
   var $Symbol = typeof Symbol === "function" ? Symbol : {};
   var iteratorSymbol = $Symbol.iterator || "@@iterator";
   var asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator";
   var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
-  var inModule = ( _typeof(module)) === "object";
+  var inModule = (  _typeof(module)) === "object";
   var runtime = global.regeneratorRuntime;
 
   if (runtime) {
@@ -15483,13 +15518,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   function maybeInvokeDelegate(delegate, context) {
     var method = delegate.iterator[context.method];
 
-    if (method === undefined) {
+    if (method === undefined$1) {
       context.delegate = null;
 
       if (context.method === "throw") {
         if (delegate.iterator.return) {
           context.method = "return";
-          context.arg = undefined;
+          context.arg = undefined$1;
           maybeInvokeDelegate(delegate, context);
 
           if (context.method === "throw") {
@@ -15528,7 +15563,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       if (context.method !== "return") {
         context.method = "next";
-        context.arg = undefined;
+        context.arg = undefined$1;
       }
     } else {
       return info;
@@ -15628,7 +15663,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             }
           }
 
-          next.value = undefined;
+          next.value = undefined$1;
           next.done = true;
           return next;
         };
@@ -15646,7 +15681,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
   function doneResult() {
     return {
-      value: undefined,
+      value: undefined$1,
       done: true
     };
   }
@@ -15656,17 +15691,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     reset: function reset(skipTempReset) {
       this.prev = 0;
       this.next = 0;
-      this.sent = this._sent = undefined;
+      this.sent = this._sent = undefined$1;
       this.done = false;
       this.delegate = null;
       this.method = "next";
-      this.arg = undefined;
+      this.arg = undefined$1;
       this.tryEntries.forEach(resetTryEntry);
 
       if (!skipTempReset) {
         for (var name in this) {
           if (name.charAt(0) === "t" && hasOwn.call(this, name) && !isNaN(+name.slice(1))) {
-            this[name] = undefined;
+            this[name] = undefined$1;
           }
         }
       }
@@ -15696,7 +15731,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         if (caught) {
           context.method = "next";
-          context.arg = undefined;
+          context.arg = undefined$1;
         }
 
         return !!caught;
@@ -15814,7 +15849,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       };
 
       if (this.method === "next") {
-        this.arg = undefined;
+        this.arg = undefined$1;
       }
 
       return ContinueSentinel;
@@ -18672,7 +18707,7 @@ var CanvasGraphics = function CanvasGraphicsClosure() {
       var isPatternFill = this.current.patternFill;
       var glyph = this.processingType3;
 
-      if (glyph && glyph.compiled === undefined) {
+      if ( glyph && glyph.compiled === undefined) {
         if (width <= MAX_SIZE_TO_COMPILE && height <= MAX_SIZE_TO_COMPILE) {
           glyph.compiled = compileType3Glyph({
             data: img.data,
@@ -19228,7 +19263,7 @@ ShadingIRs.Dummy = {
 function getShadingPatternFromIR(raw) {
   var shadingIR = ShadingIRs[raw[0]];
 
-  {
+  if (!shadingIR) {
     throw new Error("Unknown IR type: ".concat(raw[0]));
   }
 
@@ -19547,7 +19582,7 @@ function MessageHandler(sourceName, targetName, comObj) {
 }
 
 MessageHandler.prototype = {
-  on: function on$$1(actionName, handler, scope) {
+  on: function on(actionName, handler, scope) {
     var ah = this.actionHandler;
 
     if (ah[actionName]) {
@@ -22729,13 +22764,13 @@ function () {
 
       var contents = this._formatContents(this.contents);
 
-      var title$$1 = document.createElement('h1');
-      title$$1.textContent = this.title;
+      var title = document.createElement('h1');
+      title.textContent = this.title;
       this.trigger.addEventListener('click', this._toggle.bind(this));
       this.trigger.addEventListener('mouseover', this._show.bind(this, false));
       this.trigger.addEventListener('mouseout', this._hide.bind(this, false));
       popup.addEventListener('click', this._hide.bind(this, true));
-      popup.appendChild(title$$1);
+      popup.appendChild(title);
       popup.appendChild(contents);
       wrapper.appendChild(popup);
       return wrapper;

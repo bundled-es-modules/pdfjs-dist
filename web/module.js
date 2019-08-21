@@ -1,7 +1,7 @@
-var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 function unwrapExports (x) {
-	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x.default : x;
+	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
 }
 
 function createCommonjsModule(fn, module) {
@@ -9,13 +9,13 @@ function createCommonjsModule(fn, module) {
 }
 
 function getCjsExportFromNamespace (n) {
-	return n && n.default || n;
+	return n && n['default'] || n;
 }
 
 var _empty_module = {};
 
 var _empty_module$1 = /*#__PURE__*/Object.freeze({
-	default: _empty_module
+	'default': _empty_module
 });
 
 var require$$0 = getCjsExportFromNamespace(_empty_module$1);
@@ -1346,12 +1346,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
   var Op = Object.prototype;
   var hasOwn = Op.hasOwnProperty;
-  var undefined;
+  var undefined$1;
   var $Symbol = typeof Symbol === "function" ? Symbol : {};
   var iteratorSymbol = $Symbol.iterator || "@@iterator";
   var asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator";
   var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
-  var inModule = ( _typeof(module)) === "object";
+  var inModule = (  _typeof(module)) === "object";
   var runtime = global.regeneratorRuntime;
 
   if (runtime) {
@@ -1578,13 +1578,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   function maybeInvokeDelegate(delegate, context) {
     var method = delegate.iterator[context.method];
 
-    if (method === undefined) {
+    if (method === undefined$1) {
       context.delegate = null;
 
       if (context.method === "throw") {
         if (delegate.iterator.return) {
           context.method = "return";
-          context.arg = undefined;
+          context.arg = undefined$1;
           maybeInvokeDelegate(delegate, context);
 
           if (context.method === "throw") {
@@ -1623,7 +1623,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       if (context.method !== "return") {
         context.method = "next";
-        context.arg = undefined;
+        context.arg = undefined$1;
       }
     } else {
       return info;
@@ -1723,7 +1723,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             }
           }
 
-          next.value = undefined;
+          next.value = undefined$1;
           next.done = true;
           return next;
         };
@@ -1741,7 +1741,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
   function doneResult() {
     return {
-      value: undefined,
+      value: undefined$1,
       done: true
     };
   }
@@ -1751,17 +1751,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     reset: function reset(skipTempReset) {
       this.prev = 0;
       this.next = 0;
-      this.sent = this._sent = undefined;
+      this.sent = this._sent = undefined$1;
       this.done = false;
       this.delegate = null;
       this.method = "next";
-      this.arg = undefined;
+      this.arg = undefined$1;
       this.tryEntries.forEach(resetTryEntry);
 
       if (!skipTempReset) {
         for (var name in this) {
           if (name.charAt(0) === "t" && hasOwn.call(this, name) && !isNaN(+name.slice(1))) {
-            this[name] = undefined;
+            this[name] = undefined$1;
           }
         }
       }
@@ -1791,7 +1791,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         if (caught) {
           context.method = "next";
-          context.arg = undefined;
+          context.arg = undefined$1;
         }
 
         return !!caught;
@@ -1909,7 +1909,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       };
 
       if (this.method === "next") {
-        this.arg = undefined;
+        this.arg = undefined$1;
       }
 
       return ContinueSentinel;
@@ -3150,7 +3150,7 @@ exports.GenericL10n = GenericL10n;
 /***/ (function(module, exports, __w_pdfjs_require__) {
 
 
-document.webL10n = function (window, document, undefined) {
+document.webL10n = function (window, document, undefined$1) {
   var gL10nData = {};
   var gTextData = '';
   var gTextProp = 'textContent';
@@ -4417,7 +4417,7 @@ function () {
       };
 
       for (var i = 0, ii = this._linkService.pagesCount; i < ii; i++) {
-        _loop(i, ii);
+        _loop(i);
       }
     }
   }, {
@@ -5129,7 +5129,7 @@ function () {
         return;
       }
 
-      if (!this._destination.page && (this._numPositionUpdates <= POSITION_UPDATED_THRESHOLD)) {
+      if (!this._destination.page && ( this._numPositionUpdates <= POSITION_UPDATED_THRESHOLD)) {
         return;
       }
 
@@ -5223,7 +5223,7 @@ function () {
         return;
       }
 
-      if (this._isPagesLoaded && this._destination && !this._destination.page) {
+      if ( this._isPagesLoaded && this._destination && !this._destination.page) {
         this._numPositionUpdates++;
       }
 
@@ -7697,6 +7697,6 @@ exports.PDFViewer = PDFViewer;
 
 unwrapExports(pdf_viewer);
 
-var module$1 = pdf_viewer;
+var module = pdf_viewer;
 
-export default module$1;
+export default module;
