@@ -1,6 +1,6 @@
 {
   "name": "@bundled-es-modules/pdfjs-dist",
-  "version": "2.1.228-alpha1",
+  "version": "2.2.228-alpha1",
   "description": "mirror of pdfjs-dist, bundled and exposed as ES module",
   "author": "Rob Resendez (resendez.java@gmail.com)",
   "main": "build/pdf.js",
