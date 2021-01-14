@@ -10958,9 +10958,6 @@ class AnnotationElement {
         case _util.AnnotationBorderStyleType.UNDERLINE:
           container.style.borderBottomStyle = "solid";
           break;
-
-        default:
-          break;
       }
 
       if (data.color) {

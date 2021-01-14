@@ -12,13 +12,14 @@ function getCjsExportFromNamespace (n) {
 	return n && n['default'] || n;
 }
 
-var _empty_module = {};
+var _rollup_plugin_ignore_empty_module_placeholder = {};
 
-var _empty_module$1 = /*#__PURE__*/Object.freeze({
-	'default': _empty_module
+var _rollup_plugin_ignore_empty_module_placeholder$1 = /*#__PURE__*/Object.freeze({
+	__proto__: null,
+	'default': _rollup_plugin_ignore_empty_module_placeholder
 });
 
-var require$$0 = getCjsExportFromNamespace(_empty_module$1);
+var require$$0 = getCjsExportFromNamespace(_rollup_plugin_ignore_empty_module_placeholder$1);
 
 var pdf_viewer = createCommonjsModule(function (module, exports) {
 /**
@@ -1397,9 +1398,6 @@ class PDFLinkService {
 
       case "FirstPage":
         this.page = 1;
-        break;
-
-      default:
         break;
     }
 

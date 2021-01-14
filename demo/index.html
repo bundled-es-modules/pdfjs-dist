@@ -44,6 +44,7 @@
   <body>
     <div class="section-container">
       <h3>PDF.js basic example</h3>
+      <a href="https://mozilla.github.io/pdf.js/examples/">Basic examples in pdf-js docs</a>
       <div class="card">
         <canvas id="the-canvas"></canvas>
       </div>
@@ -73,10 +74,10 @@
         // Fetch the first page
         var pageNumber = 1;
         pdf.getPage(pageNumber).then(function(page) {
-          console.log("Page loaded");
+          console.log("Page loaded", page);
 
           var scale = 1;
-          var viewport = page.getViewport(scale);
+          var viewport = page.getViewport({scale: scale});
 
           // Prepare canvas using PDF page dimensions
           var canvas = document.getElementById("the-canvas");
@@ -90,7 +91,7 @@
             viewport: viewport
           };
           var renderTask = page.render(renderContext);
-          renderTask.then(function() {
+          renderTask.promise.then(function() {
             console.log("Page rendered");
           });
         });
