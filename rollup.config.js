@@ -1,7 +1,6 @@
-import resolve from 'rollup-plugin-node-resolve';
-import builtins from 'rollup-plugin-node-builtins';
-import globals from 'rollup-plugin-node-globals';
-import commonjs from 'rollup-plugin-commonjs';
+import commonjs from '@rollup/plugin-commonjs';
+import resolve from '@rollup/plugin-node-resolve';
+import nodePolyfills from 'rollup-plugin-polyfill-node';
 import copy from 'rollup-plugin-copy';
 import ignore from 'rollup-plugin-ignore';
 
@@ -40,13 +39,7 @@ export default [
         browser: true,
         preferBuiltins: false
       }),
-      commonjs({
-        namedExports: {
-          'node_modules/buffer/index.js': ['isBuffer'],
-          'node_modules/process/browser.js': ['nextTick'],
-          'node_modules/events/events.js': ['EventEmitter']
-        }
-      }),
+      commonjs(),
       copy({
         targets: [
           {
@@ -71,8 +64,7 @@ export default [
           }
         ]
       }),
-      globals(),
-      builtins()
+      nodePolyfills()
     ]
   },
   {
@@ -100,8 +92,7 @@ export default [
           }
         ]
       }),
-      globals(),
-      builtins()
+      nodePolyfills()
     ]
   }
 ];
