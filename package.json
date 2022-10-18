@@ -1,6 +1,6 @@
 {
   "name": "@bundled-es-modules/pdfjs-dist",
-  "version": "2.5.207",
+  "version": "2.16.105-alpha.1",
   "description": "mirror of pdfjs-dist, bundled and exposed as ES module",
   "author": "Rob Resendez (resendez.java@gmail.com)",
   "type": "module",
@@ -18,7 +18,7 @@
     "@rollup/plugin-commonjs": "^23.0.0",
     "@rollup/plugin-node-resolve": "^15.0.0",
     "@web/dev-server": "^0.1.34",
-    "pdfjs-dist": "2.5.207",
+    "pdfjs-dist": "2.16.105",
     "rollup": "^3.2.3",
     "rollup-plugin-copy": "^3.0.0",
     "rollup-plugin-ignore": "^1.0.10",

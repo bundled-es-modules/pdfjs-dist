@@ -28,7 +28,7 @@ import ignore from 'rollup-plugin-ignore';
 
 export default [
   {
-    input: './src/core/pdf.js',
+    input: './src/core/pdf.cjs',
     output: {
       file: './build/pdf.js',
       format: 'es'
@@ -68,7 +68,7 @@ export default [
     ]
   },
   {
-    input: './src/viewer/module.js',
+    input: './src/viewer/module.cjs',
     output: {
       file: './web/module.js',
       format: 'es'
