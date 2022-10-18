@@ -49,5 +49,7 @@ _Support for es modules in the main project has been requested [here (#10317)](h
 ### Building
 
 ```bash
+# https://github.com/FredKSchott/rollup-plugin-polyfill-node/issues/61
+npm i --legacy-peer-deps
 npm run build
 ```
