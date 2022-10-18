@@ -1,6 +1,8 @@
 # Changelog
 
-## [Unreleased]
+## [v2.16.105-alpha.1](https://github.com/bundled-es-modules/pdfjs-dist/releases/tag/v2.16.105-alpha.1)
+
+- Ugraded to `pdfjs-dist` [v2.16.105](https://github.com/mozilla/pdf.js/releases/tag/v2.16.105)
 
 ### Changed
 
