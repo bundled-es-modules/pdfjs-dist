@@ -15,7 +15,7 @@ import pdfjs from "@bundled-es-modules/pdfjs-dist/build/pdf";
 import viewer from "@bundled-es-modules/pdfjs-dist/web/pdf_viewer";
 
 pdfjs.GlobalWorkerOptions.workerSrc =
-  "@bundled-es-modules/pdfjs-dist/pdf.worker.js";
+  "@bundled-es-modules/pdfjs-dist/build/pdf.worker.js";
 
 var url = "basicapi.pdf";
 var loadingTask = pdfjs.getDocument(url);
