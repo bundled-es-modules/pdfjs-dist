@@ -26,7 +26,7 @@ var loadingTask = pdfjs.getDocument(url);
 
 # Overview
 
-### Structure
+## Structure
 
 ```
 ├── build/
