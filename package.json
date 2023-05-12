@@ -6,6 +6,11 @@
   "type": "module",
   "module": "build/pdf.js",
   "main": "build/pdf.js",
+  "files": [
+    "build/",
+    "src/",
+    "web/"
+  ],
   "publishConfig": {
     "access": "public"
   },
