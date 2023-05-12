@@ -32,6 +32,7 @@ var loadingTask = pdfjs.getDocument(url);
 ├── build/
 │   ├── pdf.js                    - display layer
 │   └── pdf.worker.js             - core layer
+|── types/                        - typescript typings
 └── web/
     ├── pdf_viewer.js             - top-level viewer import, containing all necessary setup
     ├── module.js                 - pdf-viewer module, transformed from UMD to ESM
@@ -49,7 +50,6 @@ _Support for es modules in the main project has been requested [here (#10317)](h
 ### Building
 
 ```bash
-# https://github.com/FredKSchott/rollup-plugin-polyfill-node/issues/61
-npm i --legacy-peer-deps
+npm i
 npm run build
 ```

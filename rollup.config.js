@@ -6,23 +6,23 @@ import ignore from 'rollup-plugin-ignore';
 
 /**
  * # Rollup configuration
- * 
+ *
  * ### pdf.js
- * 
+ *
  * - Transform UMD to ESM
  * - Resolve commonJS imports, **except**:
  * - Ignore `pdf.worker.js` import. This is very important, as it's conditionally required and is very large in size.
  * - Copy over all remaining files we wish to provide.
- * 
+ *
  * With `pdf.worker.js` ignored, pdfjs will expect a link to the file externally (see above)
- * 
+ *
  * ### pdf_viewer.js
- * 
+ *
  * - Transform UMD to ESM
  * - Resolve imports
  * - Ignore `pdf.js`. This is important, as we don't want to serve duplicates of pdfjs.
- * 
- * With `pdf.js` ignored, the viewer will expect to find a global pdfjs. This is circumvented by temporarily adding pdfjs to the global scope, 
+ *
+ * With `pdf.js` ignored, the viewer will expect to find a global pdfjs. This is circumvented by temporarily adding pdfjs to the global scope,
  * and removed immediately after the viewer acquires a reference.
  */
 
@@ -31,68 +31,82 @@ export default [
     input: './src/core/pdf.cjs',
     output: {
       file: './build/pdf.js',
-      format: 'es'
+      format: 'es',
     },
     plugins: [
       ignore(['./pdf.worker.js']),
       resolve({
         browser: true,
-        preferBuiltins: false
+        preferBuiltins: false,
       }),
       commonjs(),
       copy({
         targets: [
+          // the worker is used directly as-is
           {
             src: './node_modules/pdfjs-dist/build/pdf.worker.js',
-            dest: './build/'
+            dest: './build/',
           },
           {
             src: './node_modules/pdfjs-dist/build/pdf.worker.min.js',
-            dest: './build/'
+            dest: './build/',
           },
           {
             src: './node_modules/pdfjs-dist/build/pdf.worker.entry.js',
-            dest: './build/'
+            dest: './build/',
           },
           {
             src: './node_modules/pdfjs-dist/build/pdf.worker.js.map',
-            dest: './build/'
+            dest: './build/',
           },
           {
             src: './node_modules/pdfjs-dist/LICENSE',
-            dest: './'
-          }
-        ]
+            dest: './',
+          },
+          // vend typings
+          {
+            src: './src/pdf.d.ts',
+            dest: './build/',
+          },
+          {
+            src: './node_modules/pdfjs-dist/types/',
+            dest: './',
+          },
+        ],
       }),
-      nodePolyfills()
-    ]
+      nodePolyfills(),
+    ],
   },
   {
     input: './src/viewer/module.cjs',
     output: {
       file: './web/module.js',
-      format: 'es'
+      format: 'es',
     },
     plugins: [
       ignore(['../build/pdf.js']),
       resolve({
         browser: true,
-        preferBuiltins: false
+        preferBuiltins: false,
       }),
       commonjs(),
       copy({
         targets: [
           {
             src: './src/viewer/pdf_viewer.js',
-            dest: './web/'
+            dest: './web/',
           },
           {
             src: './src/viewer/util.js',
-            dest: './web/'
-          }
-        ]
+            dest: './web/',
+          },
+          {
+            src: './src/pdf_viewer.d.ts',
+            dest: './web/',
+          },
+        ],
       }),
-      nodePolyfills()
-    ]
-  }
+      nodePolyfills(),
+    ],
+  },
 ];

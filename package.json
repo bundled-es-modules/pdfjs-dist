@@ -1,15 +1,16 @@
 {
   "name": "@bundled-es-modules/pdfjs-dist",
-  "version": "3.6.172",
+  "version": "3.6.172-alpha.1",
   "description": "mirror of pdfjs-dist, bundled and exposed as ES module",
   "author": "Rob Resendez (resendez.java@gmail.com)",
   "type": "module",
   "module": "build/pdf.js",
   "main": "build/pdf.js",
+  "types": "build/pdf.d.ts",
   "files": [
     "build/",
-    "src/",
-    "web/"
+    "web/",
+    "types/"
   ],
   "publishConfig": {
     "access": "public"
@@ -24,13 +25,15 @@
     "@rollup/plugin-node-resolve": "^15.0.0",
     "@web/dev-server": "^0.2.1",
     "pdfjs-dist": "3.6.172",
+    "rimraf": "^5.0.0",
     "rollup": "^3.21.0",
     "rollup-plugin-copy": "^3.4.0",
     "rollup-plugin-ignore": "^1.0.10",
     "rollup-plugin-polyfill-node": "^0.12.0"
   },
   "scripts": {
-    "build": "rollup -c ./rollup.config.js",
+    "build": "npm run clean && rollup -c ./rollup.config.js",
+    "clean": "rimraf build web types",
     "start": "wds --node-resolve --app-index demo/index.html --root-dir ./ --open"
   }
 }
