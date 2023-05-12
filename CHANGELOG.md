@@ -1,5 +1,13 @@
 # Changelog
 
+## [v2.16.106](https://github.com/bundled-es-modules/pdfjs-dist/releases/tag/v2.16.106)
+
+- Equivalent to `v2.16.105`, corrects a problem w/ that relase:  the `web/` folder is missing! The intent of this release is to _not_ cause breakages for consumers who may start receiving the incorrectly-published `v2.16.105` release. Oops!
+
+## [v2.16.105](https://github.com/bundled-es-modules/pdfjs-dist/releases/tag/v2.16.105)
+
+- Accidentally published a bundle which was missing some files
+
 ## [v2.16.105-alpha.1](https://github.com/bundled-es-modules/pdfjs-dist/releases/tag/v2.16.105-alpha.1)
 
 - Ugraded to `pdfjs-dist` [v2.16.105](https://github.com/mozilla/pdf.js/releases/tag/v2.16.105)
