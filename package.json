@@ -1,11 +1,16 @@
 {
   "name": "@bundled-es-modules/pdfjs-dist",
-  "version": "2.16.105",
+  "version": "2.16.106",
   "description": "mirror of pdfjs-dist, bundled and exposed as ES module",
   "author": "Rob Resendez (resendez.java@gmail.com)",
   "type": "module",
   "module": "build/pdf.js",
   "main": "build/pdf.js",
+  "files": [
+    "build/",
+    "src/",
+    "web/"
+  ],
   "publishConfig": {
     "access": "public"
   },
